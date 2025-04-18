@@ -4,10 +4,12 @@ import { Link } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Menu, X, Wallet } from 'lucide-react';
 import SaturnLogo from './SaturnLogo';
+import UserAvatar from './UserAvatar';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isWalletConnected, setIsWalletConnected] = useState(false);
+  const [isSignedIn, setIsSignedIn] = useState(false); // Temporary state until Supabase integration
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   
@@ -19,6 +21,11 @@ const Navbar = () => {
   const disconnectWallet = () => {
     setIsWalletConnected(false);
     console.log("Wallet disconnected");
+  };
+
+  const handleSignOut = () => {
+    setIsSignedIn(false);
+    console.log("Sign out requested");
   };
 
   return (
@@ -69,6 +76,19 @@ const Navbar = () => {
               <span>Connect Wallet</span>
             </Button>
           )}
+
+          {isSignedIn ? (
+            <UserAvatar 
+              email="user@example.com"
+              onSignOut={handleSignOut}
+            />
+          ) : (
+            <Link to="/signin">
+              <Button variant="outline" className="border-white/10 hover:bg-white/5">
+                Sign In
+              </Button>
+            </Link>
+          )}
         </div>
 
         {/* Mobile Menu Button */}
@@ -118,6 +138,17 @@ const Navbar = () => {
               <Wallet size={16} />
               <span>Connect Wallet</span>
             </Button>
+          )}
+
+          {isSignedIn ? (
+            <UserAvatar 
+              email="user@example.com"
+              onSignOut={handleSignOut}
+            />
+          ) : (
+            <Link to="/signin" className="block px-3 py-2 rounded-lg hover:bg-white/5 transition-colors">
+              Sign In
+            </Link>
           )}
         </div>
       )}
