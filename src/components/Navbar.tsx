@@ -33,15 +33,15 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center">
         <Link to="/" className="flex items-center space-x-2">
           <SaturnLogo className="w-10 h-10" />
-          <span className="text-2xl font-bold bg-clip-text text-transparent bg-gold-gradient">
+          <span className="text-xl font-bold bg-clip-text text-transparent bg-gold-gradient">
             SaturnSwaps
           </span>
         </Link>
 
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center space-x-2">
-          <Link to="/" className="px-3 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors">
-            Home
+        <Link to="/dashboard" className="px-3 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors">
+            Dashboard
           </Link>
           <Link to="/swap" className="px-3 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors">
             Swap
@@ -49,16 +49,24 @@ const Navbar = () => {
           <Link to="/pools" className="px-3 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors">
             Pools
           </Link>
-          <Link to="/dashboard" className="px-3 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors">
-            Dashboard
-          </Link>
           <Link to="/about" className="px-3 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors">
             About
           </Link>
           <Link to="/faq" className="px-3 py-2 text-sm rounded-lg hover:bg-white/5 transition-colors">
             FAQ
           </Link>
-          
+          {isSignedIn ? (
+            <UserAvatar 
+              email="user@example.com"
+              onSignOut={handleSignOut}
+            />
+          ) : (
+            <Link to="/signin">
+              <Button variant="outline" className="border-white/10 hover:bg-white/5">
+                Sign In
+              </Button>
+            </Link>
+          )}
           {isWalletConnected ? (
             <Button 
               onClick={disconnectWallet}
@@ -75,19 +83,6 @@ const Navbar = () => {
               <Wallet size={16} />
               <span>Connect Wallet</span>
             </Button>
-          )}
-
-          {isSignedIn ? (
-            <UserAvatar 
-              email="user@example.com"
-              onSignOut={handleSignOut}
-            />
-          ) : (
-            <Link to="/signin">
-              <Button variant="outline" className="border-white/10 hover:bg-white/5">
-                Sign In
-              </Button>
-            </Link>
           )}
         </div>
 
